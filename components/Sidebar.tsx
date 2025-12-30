@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { LogOut } from 'lucide-react';
+import { LogOut, ChevronRight } from 'lucide-react';
 import { NAVIGATION_ITEMS } from '../constants';
 
 interface SidebarProps {
@@ -10,23 +10,24 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
   return (
-    <aside className="hidden md:flex flex-col w-64 bg-white border-r border-slate-200 h-screen fixed left-0 top-0 z-40 overflow-y-auto">
+    <aside className="w-64 bg-white border-r border-slate-200/60 h-screen flex flex-col overflow-y-auto">
       {/* Logo Area */}
-      <div className="p-6 border-b border-slate-100 mb-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-red-200">
+      <div className="p-8 mb-4">
+        <div className="flex items-center gap-4 group cursor-pointer">
+          <div className="w-12 h-12 bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-xl shadow-indigo-100 group-hover:rotate-6 transition-transform">
             OB
           </div>
           <div>
-            <h1 className="font-bold text-slate-800 leading-tight uppercase tracking-wider text-sm">
-              Ombak <br /> Bersaudara
+            <h1 className="font-black text-slate-900 leading-none uppercase tracking-tighter text-base">
+              Ombak <br /> <span className="text-indigo-600">Bersaudara</span>
             </h1>
           </div>
         </div>
       </div>
 
       {/* Navigation Items */}
-      <nav className="flex-1 px-4 space-y-1">
+      <nav className="flex-1 px-4 space-y-2">
+        <p className="px-4 py-2 text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] mb-2">Menu Utama</p>
         {NAVIGATION_ITEMS.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -35,25 +36,34 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
             <button
               key={item.id}
               onClick={() => onTabChange(item.id)}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
+              className={`w-full flex items-center justify-between px-4 py-3.5 rounded-2xl transition-all duration-300 group ${
                 isActive 
-                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-100' 
-                  : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+                  ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-100 ring-4 ring-indigo-50' 
+                  : 'text-slate-500 hover:bg-slate-50 hover:text-indigo-600'
               }`}
             >
-              <Icon size={20} className={isActive ? 'text-white' : 'text-slate-400 group-hover:text-indigo-500'} />
-              <span className="font-medium text-sm">{item.label}</span>
+              <div className="flex items-center gap-3">
+                <Icon size={20} className={isActive ? 'text-white' : 'text-slate-400 group-hover:text-indigo-600 transition-colors'} />
+                <span className="font-bold text-sm tracking-tight">{item.label}</span>
+              </div>
+              {isActive && <ChevronRight size={14} className="animate-in slide-in-from-left-2" />}
             </button>
           );
         })}
       </nav>
 
       {/* Logout Footer */}
-      <div className="p-4 border-t border-slate-100">
-        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 hover:text-red-600 transition-colors font-semibold text-sm">
-          <LogOut size={20} />
-          <span>Keluar Sistem</span>
-        </button>
+      <div className="p-6">
+        <div className="bg-slate-50 p-4 rounded-[2rem] space-y-4">
+          <div className="flex items-center gap-3 px-2">
+             <div className="w-2 h-2 rounded-full bg-green-500"></div>
+             <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">System Online</p>
+          </div>
+          <button className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-red-500 hover:bg-white hover:shadow-sm transition-all font-black text-xs uppercase tracking-widest">
+            <LogOut size={18} />
+            <span>Keluar</span>
+          </button>
+        </div>
       </div>
     </aside>
   );
